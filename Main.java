@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Item> items = new ArrayList<>();
+        int nextId = 101;
         int choice;
 
         do {
@@ -28,11 +29,25 @@ public class Main {
                 String location = sc.nextLine();
 
                 System.out.print("Enter description: ");
-                String description = sc.nextLine();
+String description = sc.nextLine();
 
-                String status = (choice == 1) ? "Lost" : "Found";
-                Item item = new Item(name, location, description, status);
-                items.add(item);
+Item item;
+
+System.out.print("Enter contact number: ");
+String phone = sc.nextLine();
+
+if (choice == 1) {
+    item = new LostItem(nextId, name, location, description, phone);
+} else {
+    item = new FoundItem(nextId, name, location, description, phone);
+}
+
+items.add(item);
+                nextId++;
+
+                System.out.println("Item reported successfully!");
+                System.out.println("Your item ID is: " + item.getId());
+
 
                 System.out.println("Item reported successfully!");
 
@@ -59,32 +74,35 @@ public class Main {
                 }
 
                 if (!found) {
-                    System.out.println("Item not found.");
+    System.out.println("Item not found.");
+}
+        } else if (choice == 5) {
+            System.out.print("Enter item ID to claim: ");
+            int id = sc.nextInt();
+            sc.nextLine();
+
+            boolean itemFound = false;
+
+            for (Item item : items) {
+                if (item.getId() == id &&
+                    item.getStatus().equals("Found")) {
+                    item.markAsClaimed();
+                    System.out.println("Item claimed successfully!");
+                    item.displayItem();
+                    itemFound = true;
+                    break;
                 }
-
-            } else if (choice == 5) {
-                System.out.print("Enter item name to mark as claimed: ");
-                String claimName = sc.nextLine();
-                boolean found = false;
-
-                for (Item item : items) {
-                    if (item.getName().equalsIgnoreCase(claimName)) {
-                        item.markAsClaimed();
-                        System.out.println("Item marked as claimed!");
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found) {
-                    System.out.println("Item not found.");
-                }
-
-            } else if (choice != 6) {
-                System.out.println("Invalid choice. Try again.");
             }
 
-        } while (choice != 6);
+            if (!itemFound) {
+                System.out.println("No matching found item exists with that ID.");
+            }
+
+        } else if (choice != 6) {
+            System.out.println("Invalid choice. Try again.");
+        }
+
+    } while (choice != 6);
 
         System.out.println("Thank you for using Campus Lost & Found!");
         sc.close();
