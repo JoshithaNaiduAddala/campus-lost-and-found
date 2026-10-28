@@ -12,6 +12,14 @@ public class Item {
         this.status = status;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void markAsClaimed() {
+        status = "Claimed";
+    }
+
     public void displayItem() {
         System.out.println("Item: " + name);
         System.out.println("Location: " + location);
@@ -19,3 +27,4 @@ public class Item {
         System.out.println("Status: " + status);
     }
 }
+
