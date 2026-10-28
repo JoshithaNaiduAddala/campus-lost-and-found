@@ -1,4 +1,3 @@
-
 public class LostItem extends Item {
 
     public LostItem(int id, String name, String location, String description, String phone) {
